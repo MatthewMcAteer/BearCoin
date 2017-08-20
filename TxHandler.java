@@ -9,11 +9,7 @@ public class TxHandler {
     private UTXOPool pool;
     private TxValidator validator = new TxValidator();
 
-    /**
-     * Creates a public ledger whose current UTXOPool (collection of unspent transaction outputs) is
-     * {@code utxoPool}. This should make a copy of utxoPool by using the UTXOPool(UTXOPool uPool)
-     * constructor.
-     */
+    //Creates a public ledger
     public TxHandler(UTXOPool utxoPool) {
         this.pool = new UTXOPool(utxoPool);
     }
@@ -32,7 +28,7 @@ public class TxHandler {
         private boolean inputValid(UTXOPool pool, Transaction tx) {
             inSum = 0;
             Set<UTXO> usedTxs = new HashSet<>();
-            // check for rule #1
+            
             for (int i = 0; i < tx.numInputs(); i++) {
                 Transaction.Input input = tx.getInput(i);
                 if (input == null) {
@@ -45,7 +41,6 @@ public class TxHandler {
                 }
                 Transaction.Output prevTxOut = pool.getTxOutput(utxo);
 
-                // verify rule #2
                 PublicKey pubKey = prevTxOut.address;
                 byte[] message = tx.getRawDataToSign(i);
                 byte[] signature = input.signature;
@@ -53,10 +48,6 @@ public class TxHandler {
                     return false;
                 }
 
-                // rule #3
-                // if the signatures are valid, then remove the associated output from the pool
-                // by removing the item, we ensure that no UTXO is claimed multiple times
-                //this.pool.removeUTXO(utxo);
                 usedTxs.add(utxo);
 
                 inSum += prevTxOut.value;
@@ -66,7 +57,6 @@ public class TxHandler {
         }
 
         private boolean outputValid(Transaction tx) {
-            // check for rule #4
             outSum = 0;
             for (int i = 0; i < tx.numOutputs(); i++) {
                 Transaction.Output out = tx.getOutput(i);
@@ -76,20 +66,10 @@ public class TxHandler {
                 outSum += out.value;
             }
 
-            // check for rule #5
             return inSum >= outSum;
         }
     }
 
-    /**
-     * @return true if:
-     * (1) all outputs claimed by {@code tx} are in the current UTXO pool,
-     * (2) the signatures on each input of {@code tx} are valid,
-     * (3) no UTXO is claimed multiple times by {@code tx},
-     * (4) all of {@code tx}s output values are non-negative, and
-     * (5) the sum of {@code tx}s input values is greater than or equal to the sum of its output
-     * values; and false otherwise.
-     */
     public boolean isValidTx(Transaction tx) {
         return validator.validate(this.pool, tx);
     }
@@ -101,7 +81,7 @@ public class TxHandler {
             if (tx == null) {
                 continue;
             }
-            // buffer the hashes so we don't have to re-calculate them later on
+            // buffer the hashes so they don't have to be recalculated later on
             tx.finalize();
             txs.put(tx.getHash(), tx);
         }
@@ -131,8 +111,8 @@ public class TxHandler {
                 this.applyTx(tx);
                 txs.remove(tx.getHash());
             }
-            if (txCount == txs.size() || txCount == 0) { // still the same
-                break; // nothing to check
+            if (txCount == txs.size() || txCount == 0) {
+                break;
             }
         } while (true);
 
