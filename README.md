@@ -1,5 +1,5 @@
 # BearCoin
-BearCoin is a simple cryptocurrency forked from Bitcoin. 
+BearCoin is a simple cryptocurrency based on Bitcoin. 
 
 Bearcoin currently includes modules for creating a ledger of transactions, checking for compliant nodes, 
 and creating the beginnnings of a blockchain.
