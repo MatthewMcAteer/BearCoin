@@ -40,10 +40,7 @@ public class BlockChain {
     public static final int CUT_OFF_AGE = 10;
 
 
-    /**
-     * create an empty block chain with just a genesis block. Assume {@code genesisBlock} is a valid
-     * block
-     */
+    // creates an empty block chain with just a genesis block. 
     public BlockChain(Block genesisBlock) {
         blockChain = new HashMap<>();
         UTXOPool utxoPool = new UTXOPool();
@@ -54,39 +51,20 @@ public class BlockChain {
         maxHeightNode = genesisNode;
     }
 
-    /**
-     * Get the maximum height block
-     */
     public Block getMaxHeightBlock() {
         return maxHeightNode.b;
     }
 
-    /**
-     * Get the UTXOPool for mining a new block on top of max height block
-     */
+    // Gets the UTXOPool for mining a new block on top of max height block
     public UTXOPool getMaxHeightUTXOPool() {
         return maxHeightNode.getUTXOPoolCopy();
     }
 
-    /**
-     * Get the transaction pool to mine a new block
-     */
+    // Gets the transaction pool to mine a new block
     public TransactionPool getTransactionPool() {
         return txPool;
     }
-
-    /**
-     * Add {@code block} to the block chain if it is valid. For validity, all transactions should be
-     * valid and block should be at {@code height > (maxHeight - CUT_OFF_AGE)}.
-     * <p>
-     * <p>
-     * For example, you can try creating a new block over the genesis block (block height 2) if the
-     * block chain height is {@code <=
-     * CUT_OFF_AGE + 1}. As soon as {@code height > CUT_OFF_AGE + 1}, you cannot create a new block
-     * at height 2.
-     *
-     * @return true if block is successfully added
-     */
+    
     public boolean addBlock(Block block) {
         byte[] prevBlockHash = block.getPrevBlockHash();
         if (prevBlockHash == null)
@@ -115,9 +93,7 @@ public class BlockChain {
         return true;
     }
 
-    /**
-     * Add a transaction to the transaction pool
-     */
+    // Adds a transaction to the transaction pool
     public void addTransaction(Transaction tx) {
         txPool.addTransaction(tx);
     }
