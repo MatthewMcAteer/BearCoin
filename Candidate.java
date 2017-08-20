@@ -1,4 +1,5 @@
 public class Candidate {
+	
 	Transaction tx;
 	int sender;
 	
