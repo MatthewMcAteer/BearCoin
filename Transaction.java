@@ -1,4 +1,3 @@
-
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,11 +9,8 @@ import java.util.Arrays;
 public class Transaction {
 
     public class Input {
-        /** hash of the Transaction whose output is being used */
         public byte[] prevTxHash;
-        /** used output's index in the previous transaction */
         public int outputIndex;
-        /** the signature produced to check validity */
         public byte[] signature;
 
         public Input(byte[] prevHash, int index) {
@@ -69,9 +65,7 @@ public class Transaction {
     }
 
     public class Output {
-        /** value in bitcoins of the output */
         public double value;
-        /** the address or public key of the recipient */
         public PublicKey address;
 
         public Output(double v, PublicKey addr) {
@@ -109,7 +103,6 @@ public class Transaction {
         }
     }
 
-    /** hash of the transaction, its unique id */
     private byte[] hash;
     private ArrayList<Input> inputs;
     private ArrayList<Output> outputs;
@@ -128,7 +121,6 @@ public class Transaction {
         coinbase = false;
     }
 
-    /** create a coinbase transaction of value {@code coin} and calls finalize on it */
     public Transaction(double coin, PublicKey address) {
         coinbase = true;
         inputs = new ArrayList<Input>();
@@ -167,7 +159,6 @@ public class Transaction {
     }
 
     public byte[] getRawDataToSign(int index) {
-        // ith input and all outputs
         ArrayList<Byte> sigData = new ArrayList<Byte>();
         if (index > inputs.size())
             return null;
