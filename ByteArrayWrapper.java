@@ -1,7 +1,7 @@
 
 import java.util.Arrays;
 
-/** a wrapper for byte array with hashCode and equals function implemented */
+// a wrapper for byte array with hashCode and equals function implemented
 public class ByteArrayWrapper {
 
     private byte[] contents;
