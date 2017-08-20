@@ -3,7 +3,7 @@ import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
-/* CompliantNode refers to a node that follows the rules (not malicious)*/
+// CompliantNode refers to a node that follows the rules (not malicious)
 public class CompliantNode implements Node {
 
     private double p_graph;
