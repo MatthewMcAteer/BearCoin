@@ -1,4 +1,3 @@
-
 import java.util.Arrays;
 
 // a wrapper for byte array with hashCode and equals function implemented
